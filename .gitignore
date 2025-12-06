@@ -1,5 +1,8 @@
 .DS_Store
 data/
+models/
+submissions/
+reports/
 ven/
 .venv
 __pycache__/
