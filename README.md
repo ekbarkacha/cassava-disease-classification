@@ -216,7 +216,7 @@ python -m src.training --models ConvNeXt --epochs 20
 You may also train directly from the notebook:
 
 ```text
-notebooks/3_cassava-disease-classification.ipynb
+notebooks/cassava-disease-classification.ipynb
 ```
 
 ---
