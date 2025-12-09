@@ -77,31 +77,50 @@ cassava-disease-classification/
 ├── requirements.txt
 ├── .gitignore
 │
-├── data/
+├── data/                     # Download from Kaggle https://www.kaggle.com/competitions/cassava-disease-classification/data
 │   └── cassava-disease-classification/
 │       ├── train/
 │       ├── test/
 │       └── extraimages/
 │
 ├── notebooks/
-│   └── 3_cassava-disease-classification.ipynb
+│   └── cassava-disease-classification.ipynb
 │
 ├── src/
 │   ├── dataset.py
-│   ├── train.py
+│   ├── training.py
 │   ├── evaluate.py
 │   ├── inference.py
 │   └── utils.py
 │
-├── models/
-│   └── ConvNeXt.pth
+├── models/                  # Generated after model training
+│   └── *.pth                # (not included – too large)
 │
-├── reports/
-│   └── ConvNeXt_confusion_matrix_and_classification_report.png
+├── reports/                 # training curves, confusion matrices and classification reports.
+│   └── *.png
 │
 ├── submissions/
-│   └── submission_convnext.csv
+│   └── *.csv                # Generated kaggle submission files
+│ 
+├── test/                    # Unit tests for dataset
+│   └── test_datasets.py
+
 ```
+
+---
+
+## Model Weights & Reports
+
+To keep the repository lightweight, trained model weights and report files i.e confusion matrices are stored externally.
+
+[**Google Drive Download Link**](https://drive.google.com/drive/folders/1Mk_ivEI9exi00SzLjb_CwMaU4oeIuve-?usp=drive_link)  
+
+This folder contains:
+- `models/*.pth` — fine-tuned ConvNeXt, EfficientNet-B4, DenseNet121
+- `reports/*.png` — confusion matrices & classification reports. 
+- `submissions/*.csv` — kaggle submission files. 
+
+After downloading, place the files into there respective folders.
 
 ---
 
@@ -171,12 +190,27 @@ unzip cassava-disease-classification.zip -d data/
 
 ## **Training the Model**
 
-```bash
-# Train single ConvNeXt model
-python -m src.train --model convnext
+You can train **all models**, a **single model**, or **multiple selected models** directly from the terminal.
 
-# Train ensemble models
-python -m src.train --ensemble
+```bash
+# Train all models
+python -m src.training --models all
+
+# Train a single model: ConvNeXt/EfficientNet-B4/DenseNet121
+python -m src.training --models ConvNeXt
+
+# Train multiple specific models: DenseNet121 and ConvNeXt
+python -m src.training --models DenseNet121 ConvNeXt
+
+# Enable MixUp/CutMix augmentation
+python -m src.training --models ConvNeXt --mixup
+
+# Enable early stopping
+python -m src.training --models EfficientNet-B4 --early-stop
+
+# Override the default number of epochs
+python -m src.training --models ConvNeXt --epochs 20
+
 ```
 
 You may also train directly from the notebook:
@@ -190,7 +224,7 @@ notebooks/3_cassava-disease-classification.ipynb
 ## **Evaluation**
 
 ```bash
-# Single model evaluation
+# Single model evaluation: convnext/efficientnet/densenet
 python -m src.evaluate --model convnext
 
 # Ensemble evaluation
@@ -202,7 +236,7 @@ python -m src.evaluate --ensemble
 ## **Inference**
 
 ```bash
-# Single model inference
+# Single model inference: convnext/efficientnet/densenet
 python -m src.inference --model convnext
 
 # Ensemble inference
@@ -220,9 +254,22 @@ python -m src.inference --ensemble
 ---
 
 ## **Authors**
-
-* **Emmanuel Kirui Barkacha** – [ebarkacha@aimsammi.org](mailto:ebarkacha@aimsammi.org)
-* **Rabemanantsoa Andriamianja Tiana** – [arabemanantsoa@aimsammi.org](mailto:arabemanantsoa@aimsammi.org)
+<table> <tr> 
+<td width="50%" valign="top"> 
+  <h3>Emmanuel Kirui Barkacha</h3> 
+  <ul> 
+    <li><strong>Email:</strong> <a href="mailto:ebarkacha@aimsammi.org">ebarkacha@aimsammi.org</a>
+    </li> <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/emmanuel-kirui-barkacha-493807294">linkedin.com/in/emmanuel-kirui-barkacha</a></li> <li><strong>GitHub:</strong> <a href="https://github.com/ekbarkacha">github.com/ekbarkacha</a></li> </ul> 
+</td>
+<td width="50%" valign="top">
+  <h3> Rabemanantsoa Andriamianja Tiana</h3>
+  <ul>
+    <li><strong>Email:</strong> <a href="mailto:arabemanantsoa@aimsammi.org">arabemanantsoa@aimsammi.org</a></li>
+    <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/rabemanantsoa-andriamianja">linkedin.com/in/rabemanantsoa-andriamianja</a></li>
+    <li><strong>GitHub:</strong> <a href="https://github.com/Mianja-Tiana">github.com/Mianja-Tiana</a></li>
+  </ul>
+</td>
+</tr> </table>
 
 ---
 
